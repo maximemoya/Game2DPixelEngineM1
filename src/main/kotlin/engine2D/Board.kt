@@ -88,9 +88,11 @@ class Board : JPanel(), ActionListener {
     // --------------
     // INITIALIZE :
     private fun loadImage() {
-        val url: URL = ClassLoader.getSystemResource("star.png")
-        val ii = ImageIcon(url)
-        star = ii.image
+        val url: URL? = ClassLoader.getSystemResource("star.png")
+        if(url != null){
+            val ii = ImageIcon(url)
+            star = ii.image
+        }
     }
 
     private fun initBoard() {
