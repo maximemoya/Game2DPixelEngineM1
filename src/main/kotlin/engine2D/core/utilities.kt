@@ -1,8 +1,11 @@
 package engine2D.core
 
+import engine2D.Application
 import java.awt.Color
 import java.awt.Rectangle
 import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 class Sprite(
     var actualImage: String,
@@ -15,8 +18,28 @@ class Sprite(
 class SpriteBox(
     val rectangle: Rectangle,
     val sprite: Sprite? = null,
-    val color: Color? = null,
+    var color: Color? = null,
 )
+
+class Direction(
+    var x:Int,
+    var y:Int,
+    var radian:Double,
+){
+    constructor(radian:Double, speed:Int) : this(0,0,radian) {
+        x = ((cos(radian) * speed).toInt())
+        y = ((sin(radian) * speed).toInt())
+    }
+
+}
+
+class SpriteMovable(
+    val spriteBox: SpriteBox,
+    var speed: Int,
+    radian: Double,
+){
+    var direction = Direction(radian, speed)
+}
 
 class DirectionInRadian {
     companion object {
@@ -30,4 +53,22 @@ class DirectionInRadian {
         const val UP_RIGHT = (7 * PI) / 4
 
     }
+}
+
+class Utilities() {
+    companion object {
+
+        fun isOutOfScreen(spriteBox: SpriteBox, delta: Int = 0): Boolean =
+            (spriteBox.rectangle.x < -(spriteBox.rectangle.width +  delta) ||
+                    spriteBox.rectangle.x > (Application.ScreenX + delta) ||
+                    spriteBox.rectangle.y < -(spriteBox.rectangle.height + delta) ||
+                    spriteBox.rectangle.y > (Application.ScreenY + delta))
+
+        fun calculVariance(variance:Int, movable: SpriteMovable): Pair<Double,Double> {
+            val varianceX = cos(movable.direction.radian + (PI/2)) * variance
+            val varianceY = sin(movable.direction.radian + (PI/2)) * variance
+            return (varianceX to varianceY)
+        }
+    }
+
 }

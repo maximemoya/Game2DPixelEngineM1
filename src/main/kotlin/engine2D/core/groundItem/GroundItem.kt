@@ -1,5 +1,7 @@
-package engine2D.core
+package engine2D.core.groundItem
 
+import engine2D.core.enemy.Enemy
+import engine2D.core.SpriteBox
 import java.awt.Color
 import java.awt.Rectangle
 
@@ -7,7 +9,7 @@ enum class ItemType {
     XPGEM
 }
 
-class Item(val spriteBox: SpriteBox, val type: ItemType) {
+class GroundItem(val spriteBox: SpriteBox, val type: ItemType) {
 
     fun setPosition(posX: Int, posY: Int) {
         spriteBox.rectangle.x = posX
@@ -21,11 +23,11 @@ class Item(val spriteBox: SpriteBox, val type: ItemType) {
 
     companion object {
 
-        private fun createItem(posX: Int, posY: Int, type: ItemType): Item =
-            Item(SpriteBox(Rectangle(posX, posY, 8, 8), null, Color.GREEN), type)
+        private fun createItem(posX: Int, posY: Int, type: ItemType): GroundItem =
+            GroundItem(SpriteBox(Rectangle(posX, posY, 8, 8), null, Color.GREEN), type)
 
-        private fun createItemsXPGEMList(): List<Item> {
-            val itemsXPGEM = mutableListOf<Item>()
+        private fun createItemsXPGEMList(): List<GroundItem> {
+            val itemsXPGEM = mutableListOf<GroundItem>()
             for (i in Enemy.enemies.indices) {
                 itemsXPGEM.add(createItem(-100, -100, ItemType.XPGEM))
             }

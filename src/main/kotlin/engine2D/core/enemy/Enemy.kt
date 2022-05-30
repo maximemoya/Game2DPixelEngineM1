@@ -1,6 +1,9 @@
-package engine2D.core
+package engine2D.core.enemy
 
 import engine2D.Application
+import engine2D.core.DirectionInRadian
+import engine2D.core.SpriteBox
+import engine2D.core.player.Player
 import java.awt.Color
 import java.awt.Rectangle
 import kotlin.math.PI
@@ -157,6 +160,35 @@ class Enemy(
             else -> {
                 spriteBox.rectangle.x = 0
                 spriteBox.rectangle.y = Application.ScreenY - spriteBox.rectangle.height
+            }
+        }
+    }
+
+    private enum class Direction4 {
+        LEFT, UP, RIGHT, DOWN
+    }
+
+    fun respawnRandomOutScreen() {
+        when (Direction4.values().random()) {
+            Direction4.LEFT -> {
+                spriteBox.rectangle.x = -spriteBox.rectangle.width
+                spriteBox.rectangle.y =
+                    Random.nextInt(Application.ScreenY + spriteBox.rectangle.height) - spriteBox.rectangle.height
+            }
+            Direction4.UP -> {
+                spriteBox.rectangle.x =
+                    Random.nextInt(Application.ScreenX + spriteBox.rectangle.width) - spriteBox.rectangle.width
+                spriteBox.rectangle.y = -spriteBox.rectangle.height
+            }
+            Direction4.RIGHT -> {
+                spriteBox.rectangle.x = Application.ScreenX
+                spriteBox.rectangle.y =
+                    Random.nextInt(Application.ScreenY + spriteBox.rectangle.height) - spriteBox.rectangle.height
+            }
+            Direction4.DOWN -> {
+                spriteBox.rectangle.x =
+                    Random.nextInt(Application.ScreenX + spriteBox.rectangle.width) - spriteBox.rectangle.width
+                spriteBox.rectangle.y = Application.ScreenY
             }
         }
     }

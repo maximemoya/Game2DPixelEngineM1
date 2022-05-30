@@ -1,12 +1,16 @@
-package engine2D.core
+package engine2D.core.player
 
 import engine2D.Application
-import engine2D.core.Player.Companion.keyMove.*
+import engine2D.core.DirectionInRadian
+import engine2D.core.SpriteBox
+import engine2D.core.player.Player.Companion.keyMove.*
+import engine2D.core.weapon.Weapon
+import engine2D.core.weapon.WeaponEnum
 import java.awt.Color
 import java.awt.Rectangle
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
-import kotlin.math.PI
+import kotlin.system.exitProcess
 
 class Player(
     val spriteBox: SpriteBox,
@@ -61,93 +65,33 @@ class Player(
 
     }
 
+    fun checkIsDead(){
+        if (player.health <= 0) {
+            println(
+                "\tGAME OVER\nYOUR SCORE: ${player.fullExperience} => niveau ${player.level} atteint !" +
+                        "\nCONGRATULATIONS :D"
+            )
+            exitProcess(0)
+        }
+    }
+
     fun levelUp() {
         level++
-        experienceToReach += 50
+        experienceToReach += 10
         experience = 0
         setHealthToFull()
         when (level) {
             1 -> {
-                Projectile.projectiles.add(
-                    Projectile.createProjectile(
-                        posX = player.spriteBox.rectangle.x + (player.spriteBox.rectangle.width / 2),
-                        posY = player.spriteBox.rectangle.y + (player.spriteBox.rectangle.height / 2),
-                        speed = player.speed + 1,
-                        angleInRadian = (player.directionAngle + PI),
-                        type = TypeProjectile.SHOT_INVERSE_PLAYER_DIRECTION,
-                        timeBetweenShot = 1000,
-                    )
-                )
+                Weapon.weapons[WeaponEnum.smg] = Weapon.SMG2
             }
             2 -> {
-                Projectile.projectiles.add(
-                    Projectile.createProjectile(
-                        posX = player.spriteBox.rectangle.x + (player.spriteBox.rectangle.width / 2),
-                        posY = player.spriteBox.rectangle.y + (player.spriteBox.rectangle.height / 2),
-                        speed = player.speed + 1,
-                        angleInRadian = (player.directionAngle + PI / 2),
-                        type = TypeProjectile.SHOT_90DEGREE_PLAYER_DIRECTION,
-                        timeBetweenShot = 1000,
-                    )
-                )
+                Weapon.weapons[WeaponEnum.smg] = Weapon.SMG3
             }
             3 -> {
-                Projectile.projectiles.add(
-                    Projectile.createProjectile(
-                        posX = player.spriteBox.rectangle.x + (player.spriteBox.rectangle.width / 2),
-                        posY = player.spriteBox.rectangle.y + (player.spriteBox.rectangle.height / 2),
-                        speed = player.speed + 1,
-                        angleInRadian = (player.directionAngle + (3 * PI / 2)),
-                        type = TypeProjectile.SHOT_270DEGREE_PLAYER_DIRECTION,
-                        timeBetweenShot = 1000,
-                    )
-                )
-            }
-            4 -> {
-                Projectile.projectiles.add(
-                    Projectile.createProjectile(
-                        posX = player.spriteBox.rectangle.x + (player.spriteBox.rectangle.width / 2),
-                        posY = player.spriteBox.rectangle.y + (player.spriteBox.rectangle.height / 2),
-                        speed = player.speed + 1,
-                        angleInRadian = DirectionInRadian.UP_LEFT,
-                        type = TypeProjectile.SHOT_UP_LEFT,
-                        timeBetweenShot = 1000,
-                    )
-                )
-                Projectile.projectiles.add(
-                    Projectile.createProjectile(
-                        posX = player.spriteBox.rectangle.x + (player.spriteBox.rectangle.width / 2),
-                        posY = player.spriteBox.rectangle.y + (player.spriteBox.rectangle.height / 2),
-                        speed = player.speed + 1,
-                        angleInRadian = DirectionInRadian.UP_RIGHT,
-                        type = TypeProjectile.SHOT_UP_RIGHT,
-                        timeBetweenShot = 1000,
-                    )
-                )
-                Projectile.projectiles.add(
-                    Projectile.createProjectile(
-                        posX = player.spriteBox.rectangle.x + (player.spriteBox.rectangle.width / 2),
-                        posY = player.spriteBox.rectangle.y + (player.spriteBox.rectangle.height / 2),
-                        speed = player.speed + 1,
-                        angleInRadian = DirectionInRadian.DOWN_LEFT,
-                        type = TypeProjectile.SHOT_DOWN_LEFT,
-                        timeBetweenShot = 1000,
-                    )
-                )
-                Projectile.projectiles.add(
-                    Projectile.createProjectile(
-                        posX = player.spriteBox.rectangle.x + (player.spriteBox.rectangle.width / 2),
-                        posY = player.spriteBox.rectangle.y + (player.spriteBox.rectangle.height / 2),
-                        speed = player.speed + 1,
-                        angleInRadian = DirectionInRadian.DOWN_RIGHT,
-                        type = TypeProjectile.SHOT_DOWN_RIGHT,
-                        timeBetweenShot = 1000,
-                    )
-                )
+                Weapon.weapons[WeaponEnum.smg] = Weapon.SMG4
             }
             else -> {}
         }
-        Projectile.projectiles.forEach { it.resetTimer() }
 
     }
 
